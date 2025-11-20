@@ -8,17 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+	
+	@State var counter: Int = 0
+	
+	var body: some View {
+		
+		HStack {
+			Text("\(counter)")
+				.font(.largeTitle)
+			
+			VStack {
+				Button {
+					counter += 1
+				} label: {
+					Image(systemName: "plus")
+				}
+				
+				Button {
+					counter = 0
+				} label: {
+					Image(systemName: "")
+				}
+			}
+			
+		}
+	}
 }
 
 #Preview {
-    ContentView()
+	ContentView()
 }
