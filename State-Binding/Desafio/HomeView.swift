@@ -9,9 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
 	
-	@State var nome: String = ""
+	@StateObject var controller = HomeViewController(nome: "", idade: 0)
 	
-	@State var idade: Int = 0
+	@Environment(\.colorScheme) var colorScheme
+	
+	@State var isOn = false
 	
 	var body: some View {
 		NavigationStack {
@@ -20,22 +22,26 @@ struct HomeView: View {
 				HStack {
 					Text("Seu nome")
 					Divider()
-					TextField("Digite seu nome", text: $nome)
+					TextField("Digite seu nome", text: $controller.nome)
 				}
 				
-				Picker("Informe sua idade", selection: $idade) {
+				Picker("Informe sua idade", selection: $controller.idade) {
 					ForEach(0..<101) { i in
 						Text("\(i)").tag(i)
 					}
 				}
 				
+				Toggle(isOn: $isOn) {
+					Text("Olá")
+				}
+				
 				NavigationLink {
 					// destino
-					ProfileView(nome: $nome, idade: idade)
+					ProfileView(controller: controller)
 				} label: {
 					// visual
 					Text("Ir para perfil")
-						.foregroundStyle(.blue)
+						.foregroundStyle(colorScheme == .light ? .blue : .green)
 				}
 			}// End-Form
 			.navigationTitle("Home")

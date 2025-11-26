@@ -9,37 +9,42 @@ import SwiftUI
 
 struct ProfileView: View {
 	
-	@Binding var nome: String
-	let idade: Int
+	@ObservedObject var controller: HomeViewController
 	
-	@State var novoNome: String = ""
+	@Environment(\.dismiss) var dismiss
 	
 	var body: some View {
 		NavigationStack {
 			VStack(spacing: 50) {
 				
-				Text("\(nome) - \(idade)")
+				Text("\(controller.nome) - \(controller.idade)")
 					.font(.largeTitle)
 				
-				TextField("Digitar nome para substituição", text: $novoNome)
+				TextField("Digitar nome para substituição", text: $controller.novoNome)
 					.textFieldStyle(.roundedBorder)
 				
 				Button {
-					nome = novoNome
+					controller.changeName()
 				} label: {
 					Text("Trocar o nome")
 				}
 				.buttonStyle(.glassProminent)
-				.disabled(novoNome == "" ? true : false)
+				.disabled(controller.validateNewName())
 				
+				Button {
+					dismiss()
+				} label: {
+					Text("Voltar")
+				}
 			}
 			
 			.padding()
 			.navigationTitle("Perfil")
+			.navigationBarBackButtonHidden()
 		}
 	}
 }
 
 #Preview {
-	ProfileView(nome: .constant("Paulo"), idade: 45)
+	ProfileView(controller: HomeViewController(nome: "Paulo", idade: 10))
 }
