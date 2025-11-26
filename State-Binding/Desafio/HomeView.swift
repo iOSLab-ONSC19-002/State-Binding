@@ -15,8 +15,13 @@ struct HomeView: View {
 	
 	var body: some View {
 		NavigationStack {
-			Form {
-				TextField("Digite seu nome", text: $nome)
+			
+			Form {// Begin-Form
+				HStack {
+					Text("Seu nome")
+					Divider()
+					TextField("Digite seu nome", text: $nome)
+				}
 				
 				Picker("Informe sua idade", selection: $idade) {
 					ForEach(0..<101) { i in
@@ -26,11 +31,15 @@ struct HomeView: View {
 				
 				NavigationLink {
 					// destino
+					ProfileView(nome: $nome, idade: idade)
 				} label: {
 					// visual
 					Text("Ir para perfil")
+						.foregroundStyle(.blue)
 				}
-			}
+			}// End-Form
+			.navigationTitle("Home")
+
 		}
 	}
 }
